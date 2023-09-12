@@ -8,6 +8,7 @@ date_default_timezone_set('UTC');
 
 switch ($_SERVER["REQUEST_METHOD"]) {
     case 'POST':
+
         break;
     case 'GET':
         $response = Person::all();

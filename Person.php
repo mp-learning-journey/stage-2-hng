@@ -3,7 +3,6 @@ require_once "DbConnection.php";
 class Person
 {
     protected static string $table = "person";
-    private $conn;
 
     public static function all(){
         $conn = (new DbConnection())();
