@@ -14,6 +14,11 @@ $personController = new PersonController();
 switch ($_SERVER["REQUEST_METHOD"]) {
 
     case 'POST':
+        if($id) {
+            header("HTTP/1.1 404 Route Not Found");
+            echo json_encode(["error" => "Route not found"]);
+            exit;
+        }
         $request = json_decode(file_get_contents("php://input"));
         echo $personController->store($request);
         break;
