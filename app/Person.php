@@ -63,13 +63,13 @@ class Person
         $stmt = $conn->prepare($sqlQuery);
 
         // Bind parameters from $request to the placeholders
-        $stmt->bindValue(':name', $request['name']);
-        $stmt->bindValue(':updated_at', $currentDate);
-        $stmt->bindValue(':id', $id);
+        $stmt->bindParam(':name', $request['name'], PDO::PARAM_STR);
+        $stmt->bindParam(':updated_at', $currentDate, PDO::PARAM_STR);
+        $stmt->bindParam(':id', $id,  PDO::PARAM_INT);
 
         try {
             $stmt->execute();
-            return self::find($id);
+            return true;
         } catch (\PDOException) {
             return false; // Return false on failure
         }

@@ -32,6 +32,11 @@ switch ($_SERVER["REQUEST_METHOD"]) {
         break;
     case 'PUT':
         $request = json_decode(file_get_contents("php://input"));
+        if(!is_numeric($id)) {
+            header("HTTP/1.1 400 Bad Request");
+            echo json_encode(["error" => "Invalid 'id' parameter"]);
+            exit;
+        }
         if ($id) {
             echo $personController->update($request, $id); // Implement the 'update' method
         } else {
@@ -40,6 +45,12 @@ switch ($_SERVER["REQUEST_METHOD"]) {
         }
         break;
     case 'DELETE':
+        if(!is_numeric($id)) {
+            header("HTTP/1.1 400 Bad Request");
+            echo json_encode(["error" => "Invalid 'id' parameter"]);
+            exit;
+        }
+
         if ($id) {
             echo $personController->destroy($id);
         } else {

@@ -21,13 +21,10 @@ class PersonController
     public function show($id)
     {
         try {
-            $response = Person::find($id);
-            if (!$response) {
-                return self::personNotFound();
-            }
+            $person = self::getPerson($id);
 
             http_response_code(200);
-            return json_encode($response);
+            return json_encode($person);
         } catch (PDOException) {
             http_response_code(500);
             return json_encode(["error" => "Error occurred."]);
@@ -60,19 +57,19 @@ class PersonController
     public function update($request, $id)
     {
         $name = $request->name;
-        self::validateName($name);
 
         try {
-            $updated = Person::update([
+            $person = self::getPerson($id);
+            self::validateName($name);
+
+            Person::update([
                 "name" => $name,
             ], $id);
 
-            if (!$updated) {
-                return self::personNotFound();
-            }
+            $person['name'] = $name;
 
             http_response_code(200);
-            return json_encode(['message' => "Updated successfully", "data" => $updated]);
+            return json_encode(['message' => "Updated successfully", "data" => $person]);
         } catch (\PDOException) {
             http_response_code(500);
             return json_encode(["error" => "Error occurred."]);
@@ -85,10 +82,7 @@ class PersonController
     public function destroy($id)
     {
         try {
-            $person = Person::find($id);
-            if (!$person) {
-                return self::personNotFound();
-            }
+            $person = self::getPerson($id);
 
             Person::delete($id);
             http_response_code(200);
@@ -102,21 +96,32 @@ class PersonController
         }
     }
 
-    private static function personNotFound()
+    private static function getPerson($id)
     {
-        http_response_code(404);
-        return json_encode(["error" => "Person not found"]);
+        $person = Person::find($id);
+        if(!$person) {
+            http_response_code(404);
+            echo json_encode(["error" => "Person not found"]);
+            exit;
+        }
+        return $person;
     }
 
-    public static function validateName($name) {
+    public static function validateName($name): void
+    {
+        // Validate and sanitize name
+        $name = filter_var($name, FILTER_SANITIZE_STRING);
+
         if (empty($name)) {
             http_response_code(422);
-            return json_encode(["error" => "Name field is required"]);
+            echo json_encode(["error" => "Name field is required"]);
+            exit;
         }
 
         if(!preg_match('/^[A-Za-z -]+$/', $name)) {
             http_response_code(422);
-            return json_encode(["error" => "Please provide a valid name"]);
+            echo json_encode(["error" => "Please provide a valid name"]);
+            exit;
         }
     }
 }

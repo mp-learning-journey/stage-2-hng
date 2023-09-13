@@ -5,14 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cc1640d0-947e-41fa-9b27-7ead08dd500c" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.htaccess" beforeDir="false" afterPath="$PROJECT_DIR$/.htaccess" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/stage-2.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/stage-2.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/api.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/DbConnection.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/DbConnection.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Person.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Person.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/PersonController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/PersonController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/headers.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/headers.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/index.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -72,7 +69,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1694613157140</updated>
-      <workItem from="1694613158458" duration="7958000" />
+      <workItem from="1694613158458" duration="11161000" />
     </task>
     <servers />
   </component>

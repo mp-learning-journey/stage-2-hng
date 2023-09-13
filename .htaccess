@@ -1,6 +1,6 @@
 Options +FollowSymLinks
 RewriteEngine On
-RewriteBase /stage-2
+RewriteBase /stage-2-hng
 
 # Redirect all requests to index.php
 RewriteCond %{REQUEST_FILENAME} !-f
