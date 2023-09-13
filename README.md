@@ -14,9 +14,6 @@
         - [Tech Stack](#tech-stack)
         - [Key Features](#key-features)
     - [🚀 Link to Api Docs](#api-docs)
-    - [🚀 Link to React Frontend](#front-end)
-    - [🚀 Kaban Board](#Kaban-Board)
-        - [Kaban Board Initial State](#initial-state)
     - [ERD Diagram](#erd)
 - [💻 Getting Started](#getting-started)
     - [Setup](#setup)
@@ -31,44 +28,152 @@
 
 # 📖 Person API <a name="about-project"></a>
 
-**[Person API]** is the backend application designed for resplify, a web application for jobseekers who need to update their portfolio and set up their online presence and everything they need to be job ready. You come to the platform to update your resume, LinkedIn profile and generate a cover letter for every job application.
+**[Person API]** is a simple REST API capable of CRUD operations on a "person" resource, interfacing with MySQL database. The API dynamically handle parameters, such as adding or retrieving a person by name.
 
 
 ### Tech Stack <a name="tech-stack"></a>
 
 - <a href="https://www.php.net/">PHP</a>
-- <a href="https://laravel.com/">Laravel</a>
 - <a href="https://www.mysql.com/">MySQL</a>
 
 <!-- Features -->
 
 ### Key Features <a name="key-features"></a>
 
-- **[User Registration and Authentication]**
-- **[resume generator and review]**
+- **[CRUD operation]**
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-<!-- Link to Api Documentation -->
+<!-- Api Documentation -->
 
-## 🚀 Link to Api Documentation <a name="api-docs"></a>
+## 🚀 Api Documentation <a name="api-docs"></a>
 
-To access the documentation, run the server using `php artisan serve` and goto the above link
+### List All Persons
 
-- [Link to api documentation](https://localhost:8000/docs/)
+Retrieve a list of all persons.
+
+- **URL**: `/api`
+- **HTTP Method**: GET
+- **Response**:
+    - **Status Code**: 200 OK
+    - **Response Body**: An array of person records.
+      ```json
+      [
+          {
+              "id": 1,
+              "name": "John Doe"
+          },
+          {
+              "id": 2,
+              "name": "Alice Smith"
+          }
+      ]
+      ```
+
+### Retrieve a Person
+
+Retrieve a person record by ID.
+
+- **URL**: `/api/{param}`
+- **HTTP Method**: GET
+- **Parameters**:
+    - `param` (path parameter, string) - The name or ID of the person to retrieve.
+- **Response**:
+    - **Status Code**: 200 OK
+    - **Response Body**: A person record.
+      ```json
+      {
+          "id": 1,
+          "name": "John Doe"
+      }
+      ```
+
+### Create a Person
+
+Create a new person record.
+
+- **URL**: `/api`
+- **HTTP Method**: POST
+- **Request Body**:
+    - `name` (string, required) - The name of the person.
+      ```json
+      {
+          "name": "Alice Smith"
+      }
+      ```
+- **Response**:
+    - **Status Code**: 200 OK
+    - **Response Body**: A success message and the created person record.
+      ```json
+      {
+          "message": "Person saved successfully",
+          "data": {
+              "id": 3,
+              "name": "Alice Smith"
+          }
+      }
+      ```
+
+### Update a Person
+
+Update an existing person record by ID.
+
+- **URL**: `/api/{id}`
+- **HTTP Method**: PUT
+- **Parameters**:
+    - `id` (path parameter, integer) - The ID of the person to update.
+- **Request Body**:
+    - `name` (string, required) - The updated name of the person.
+      ```json
+      {
+          "name": "Alice Johnson"
+      }
+      ```
+- **Response**:
+    - **Status Code**: 200 OK
+    - **Response Body**: A success message and the updated person record.
+      ```json
+      {
+          "message": "Updated successfully",
+          "data": {
+              "id": 3,
+              "name": "Alice Johnson"
+          }
+      }
+      ```
+
+### Delete a Person
+
+Delete a person record by ID.
+
+- **URL**: `/api/{id}`
+- **HTTP Method**: DELETE
+- **Parameters**:
+    - `id` (path parameter, integer) - The ID of the person to delete.
+- **Response**:
+    - **Status Code**: 200 OK
+    - **Response Body**: A success message and the deleted person record.
+      ```json
+      {
+          "message": "Deleted successfully",
+          "data": {
+              "id": 3,
+              "name": "Alice Johnson"
+          }
+      }
+      ```
 
 <br/>
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-<!-- Link to frontend -->
+## 📊 ERD Diagram <a name="getting-started"></a>
 
-## 🚀 Link to Front-end <a name="front-end"></a>
+![UML Database diagram](uml.png)
 
-- [Link to Front-end](https://github.com/mrprotocoll/resplify)
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+<p align="right">(<a href="#erd">back to top</a>)</p>
 
 <!-- GETTING STARTED -->
 
@@ -101,8 +206,9 @@ In order to run this project you need:
 Clone repo:
 
 ```
-git clone https://github.com/mrprotocoll/resplify.git
+git clone https://github.com/mp-learning-journey/stage-2-hng.git
 ```
+`clone into htdocs for windows, and www for linux`
 
 Install dependencies:
 
@@ -112,48 +218,26 @@ composer install
 
 ## Setup
 
-create a .env file change using the .env.example file and update the Database and Email credentials. Then setup some configuration with your own credentials
-
-Run the migration:
-
-```
-php artisan migrate
-```
-
-Or run the migration with seeder if you want seeding the related data:
-
-```
-php artisan migrate --seed
-```
-
-Generate a New Application Key:
-
-```
-php artisan key:generate
-```
-
-Create a symbolic link:
-
-```
-php artisan storage:link
+- Create a database
+- Create a .env file using the .env.example file and update the Database info.
+- Run the above SQL query in your database
+```MYSQL
+CREATE TABLE `person` (
+  `id` int PRIMARY KEY AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL ,
+  `created_at` timestamp,
+  `updated_at` timestamp
+);
 ```
 
 ### Usage
 
-The following command can be used to run the application.
+Start your server and goto the above url on your browser
 
-```sh
-  php artisan serve
-```
+http://localhost/stage-2-hng/api
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-## 🔭 Future Features <a name="future-features"></a>
-
-- [ ] **[Automate Job Search]**
-- [ ] **[Track jobs]**
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- CONTRIBUTING -->
 
