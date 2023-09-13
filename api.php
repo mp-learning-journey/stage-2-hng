@@ -3,19 +3,21 @@ header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
 header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers");
-require_once "Person.php";
+require_once "PersonController.php";
 date_default_timezone_set('UTC');
-
+$personController = new PersonController();
 switch ($_SERVER["REQUEST_METHOD"]) {
+
     case 'POST':
-        Person::create([
-            "name" => $_POST['name'],
-        ]);
+        $request = json_decode(file_get_contents("php://input"));
+        $personController->store($request);
         break;
     case 'GET':
-        $response = Person::all();
-        http_response_code(200);
-        echo json_encode($response);
+        $personController->index();
+        break;
+    case 'PUT':
+        break;
+    case 'DELETE':
         break;
     default:
         header("HTTP/1.1 404 Route Not Found");
