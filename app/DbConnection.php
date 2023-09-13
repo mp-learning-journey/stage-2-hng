@@ -1,13 +1,13 @@
 <?php
-require __DIR__ . '/vendor/autoload.php';
 
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/');
+require __DIR__ .'/../vendor/autoload.php';
 
 // Load environment variables from .env
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__.'/../');
 $dotenv->load();
 
-class DbConnection {
+class DbConnection
+{
     private $conn;
 
     public function __invoke(): ?PDO
@@ -26,6 +26,7 @@ class DbConnection {
             }
 
             $this->conn = new PDO("mysql:host=$dbHost;dbname=$dbName", $dbUsername, $dbPassword);
+            $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $this->conn->exec("set names utf8");
         } catch (PDOException $e) {
             // Handle PDO errors

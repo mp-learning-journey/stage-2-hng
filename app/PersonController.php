@@ -1,4 +1,5 @@
 <?php
+
 require_once "Person.php";
 class PersonController
 {
@@ -8,11 +9,10 @@ class PersonController
             $response = Person::all();
             http_response_code(200);
             return json_encode($response);
-        }catch (PDOException) {
+        } catch (\PDOException) {
             http_response_code(500);
             return json_encode(["error" => "Error occurred."]);
-        }
-        catch (Exception) {
+        } catch (\Exception) {
             http_response_code(500);
             return json_encode(["error" => "Oops, something went wrong"]);
         }
@@ -22,18 +22,16 @@ class PersonController
     {
         try {
             $response = Person::find($id);
-            if(!$response) {
+            if (!$response) {
                 return self::personNotFound();
             }
 
             http_response_code(200);
             return json_encode($response);
-        }
-        catch (PDOException) {
+        } catch (\PDOException) {
             http_response_code(500);
             return json_encode(["error" => "Error occurred."]);
-        }
-        catch (Exception) {
+        } catch (\Exception) {
             http_response_code(500);
             return json_encode(["error" => "Oops, something went wrong"]);
         }
@@ -42,7 +40,7 @@ class PersonController
     public function store($request)
     {
         $name = $request->name;
-        if(empty($name)) {
+        if (empty($name)) {
             http_response_code(422);
             return json_encode(["error" => "Name field is required"]);
         }
@@ -52,12 +50,10 @@ class PersonController
             ]);
             http_response_code(200);
             return json_encode(['message' => "Person saved successfully", "data" => $saved]);
-        }
-        catch (PDOException) {
+        } catch (\PDOException) {
             http_response_code(500);
             return json_encode(["error" => "Error occurred."]);
-        }
-        catch (Exception) {
+        } catch (\Exception) {
             http_response_code(500);
             return json_encode(["error" => "Oops, something went wrong"]);
         }
@@ -66,7 +62,7 @@ class PersonController
     public function update($request, $id)
     {
         $name = $request->name;
-        if(empty($name)) {
+        if (empty($name)) {
             http_response_code(422);
             return json_encode(["error" => "Name field is required"]);
         }
@@ -81,33 +77,30 @@ class PersonController
 
             http_response_code(200);
             return json_encode(['message' => "Updated successfully", "data" => $updated]);
-        }
-        catch (PDOException) {
+        } catch (\PDOException) {
             http_response_code(500);
             return json_encode(["error" => "Error occurred."]);
-        }
-        catch (Exception) {
+        } catch (\Exception) {
             http_response_code(500);
             return json_encode(["error" => "Oops, something went wrong"]);
         }
     }
 
-    public function destroy($id) {
+    public function destroy($id)
+    {
         try {
             $person = Person::find($id);
-            if(!$person) {
+            if (!$person) {
                 return self::personNotFound();
             }
 
             Person::delete($id);
             http_response_code(200);
             return json_encode(['message' => "Deleted successfully", "data" => $person]);
-        }
-        catch (PDOException) {
+        } catch (\PDOException) {
             http_response_code(500);
             return json_encode(["error" => "Error occurred."]);
-        }
-        catch (Exception) {
+        } catch (\Exception) {
             http_response_code(500);
             return json_encode(["error" => "Oops, something went wrong"]);
         }
