@@ -36,11 +36,15 @@ class Person
     {
         $conn = (new DbConnection())();
 
-        $sqlQuery = "INSERT INTO " . self::$table . " (`name`) VALUES (:name)";
+        $sqlQuery = "INSERT INTO " . self::$table . " (`name`, `created_at`, `updated_at`) VALUES (:name, :created_at, :updated_at)";
         $stmt = $conn->prepare($sqlQuery);
+        $dateTime = new \DateTime('now', new \DateTimeZone('UTC'));
+        $currentDate = $dateTime->format('Y-m-d H:i:s');
 
         // Bind parameters from $request to the placeholders
-        $stmt->bindValue(':name', $request['name']);
+        $stmt->bindParam(':name', $request['name'], PDO::PARAM_STR);
+        $stmt->bindParam(':created_at', $currentDate, PDO::PARAM_STR);
+        $stmt->bindParam(':updated_at', $currentDate, PDO::PARAM_STR);
 
         try {
             $stmt->execute();

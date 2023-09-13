@@ -172,6 +172,9 @@ Delete a person record by ID.
 
 ![UML Database diagram](uml.png)
 
+## 📊 Class Diagram <a name="getting-started"></a>
+
+![Class diagram](class-diagram.png)
 
 <p align="right">(<a href="#erd">back to top</a>)</p>
 
@@ -201,6 +204,11 @@ In order to run this project you need:
    use the following link to setup `MySQL` if you dont have it already installed on your computer
 <p align="left">(<a href="https://dev.mysql.com/doc/mysql-getting-started/en/">install MySQL</a>)</p>
 
+5. Apache Server <br>
+   use the following link to setup `Apache` if you dont have it already installed on your computer
+<p align="left">(<a href="https://httpd.apache.org/docs/2.4/install.html">install Apache</a>)</p>
+
+
 ## Install
 
 Clone repo:
@@ -208,7 +216,7 @@ Clone repo:
 ```
 git clone https://github.com/mp-learning-journey/stage-2-hng.git
 ```
-`clone into htdocs for windows, and www for linux`
+clone into `htdocs` for windows, and `www` for linux
 
 Install dependencies:
 
