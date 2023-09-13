@@ -168,11 +168,11 @@ Delete a person record by ID.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-## 📊 ERD Diagram <a name="getting-started"></a>
+## 📊 ERD Diagram <a name="erd"></a>
 
 ![UML Database diagram](uml.png)
 
-## 📊 Class Diagram <a name="getting-started"></a>
+## 📊 Class Diagram <a name=""></a>
 
 ![Class diagram](class-diagram.png)
 

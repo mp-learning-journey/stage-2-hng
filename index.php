@@ -5,13 +5,7 @@ require_once "app/PersonController.php";
 $requestUri = $_SERVER['REQUEST_URI'];
 
 // validate route
-$routePattern = $_ENV['ENV'] == "prod" ? '#^/api#' : '#^/[^/]+/api#';
-$pattern = '#^/[^/]+/api(/[^/]+)?$#'; // validate route must not include /api/:id/others
-if (!preg_match($routePattern, $requestUri) or !preg_match($pattern, $requestUri)) {
-    header("HTTP/1.1 404 Route Not Found");
-    echo json_encode(["error" => "Route not found"]);
-    exit;
-}
+validateRoute();
 
 $uriParts = explode('api/', trim($requestUri, '/'));
 $id = urldecode($uriParts[1]) ?? null;
