@@ -6,6 +6,7 @@ class Person
 
     public static function all(){
         $conn = (new DbConnection())();
+
         $sqlQuery = "SELECT id, name FROM ". self::$table;
         $stmt = $conn->prepare($sqlQuery);
         $stmt->execute();
@@ -13,8 +14,7 @@ class Person
     }
 
     public static function find($id) {
-        $dbConnection = new DbConnection(); // Create an instance of DbConnection
-        $conn = $dbConnection(); // Get the PDO database connection
+        $conn = (new DbConnection())();
 
         $sqlQuery = "SELECT id, name FROM " . self::$table . " WHERE id = :id";
         $stmt = $conn->prepare($sqlQuery);
@@ -22,9 +22,7 @@ class Person
         $stmt->execute();
 
         // Fetch a single record
-        $record = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        return $record;
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
     public static function create(Array $request){
@@ -38,14 +36,19 @@ class Person
 
         try {
             $stmt->execute();
-            return true; // Return true on success
+            return self::find($conn->lastInsertId()); // Return true on success
         } catch (PDOException $e) {
             return false; // Return false on failure
         }
     }
 
-    public static function update($request, $id){
+    /**
+     * @throws Exception
+     */
+    public static function update(Array $request, $id)
+    {
         $conn = (new DbConnection())();
+
         $dateTime = new DateTime('now', new DateTimeZone('UTC'));
         $currentDate = $dateTime->format('Y-m-d H:i:s');
         $sqlQuery = "UPDATE " .self::$table. " SET `name` = :name, `updated_at` = :updated_at WHERE id = :id";
@@ -58,13 +61,14 @@ class Person
 
         try {
             $stmt->execute();
-            return true; // Return true on success
-        } catch (PDOException $e) {
+            return self::find($id);
+        } catch (PDOException) {
             return false; // Return false on failure
         }
     }
 
-    public static function delete($id){
+    public static function delete($id)
+    {
         $conn = (new DbConnection())();
         $sqlQuery = "DELETE FROM " .self::$table. " WHERE `id` = :id";
         $stmt = $conn->prepare($sqlQuery);
@@ -72,8 +76,9 @@ class Person
 
         try {
             $stmt->execute();
-            return true; // Return true on success
-        } catch (PDOException $e) {
+            return true;
+            // Return true on success
+        } catch (PDOException) {
             return false; // Return false on failure
         }
     }

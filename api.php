@@ -1,23 +1,40 @@
 <?php
-header("Access-Control-Allow-Origin: *");
-header("Content-Type: application/json; charset=UTF-8");
-header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE");
-header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers");
+require_once "headers.php";
 require_once "PersonController.php";
-date_default_timezone_set('UTC');
+
 $personController = new PersonController();
 switch ($_SERVER["REQUEST_METHOD"]) {
 
     case 'POST':
         $request = json_decode(file_get_contents("php://input"));
-        $personController->store($request);
+        echo $personController->store($request);
         break;
     case 'GET':
-        $personController->index();
+        $id = $_GET['id'] ?? null;
+        if ($id) {
+            echo $personController->show($id); // Implement the 'show' method
+        } else {
+            echo $personController->index();
+        }
         break;
     case 'PUT':
+        $id = $_GET['id'] ?? null;
+        $request = json_decode(file_get_contents("php://input"));
+        if ($id) {
+            echo $personController->update($request, $id); // Implement the 'update' method
+        } else {
+            header("HTTP/1.1 400 Bad Request");
+            echo json_encode(["error" => "Missing 'id' parameter"]);
+        }
         break;
     case 'DELETE':
+        $id = $_GET['id'] ?? null;
+        if ($id) {
+            echo $personController->destroy($id);
+        } else {
+            header("HTTP/1.1 400 Bad Request");
+            echo json_encode(["error" => "Missing 'id' parameter"]);
+        }
         break;
     default:
         header("HTTP/1.1 404 Route Not Found");
