@@ -18,10 +18,14 @@ class Person
     public static function find($id)
     {
         $conn = (new DbConnection())();
-
-        $sqlQuery = "SELECT id, name FROM " . self::$table . " WHERE id = :id";
+        $column = is_numeric($id) ? 'id' : 'name';
+        $sqlQuery = "SELECT id, name FROM " . self::$table . " WHERE $column = :value";
         $stmt = $conn->prepare($sqlQuery);
-        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        if (is_numeric($id)) {
+            $stmt->bindParam(':value', $id, PDO::PARAM_INT);
+        } else {
+            $stmt->bindParam(':value', $id, PDO::PARAM_STR);
+        }
         $stmt->execute();
 
         // Fetch a single record

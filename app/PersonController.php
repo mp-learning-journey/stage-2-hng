@@ -9,7 +9,7 @@ class PersonController
             $response = Person::all();
             http_response_code(200);
             return json_encode($response);
-        } catch (\PDOException) {
+        } catch (PDOException) {
             http_response_code(500);
             return json_encode(["error" => "Error occurred."]);
         } catch (\Exception) {
@@ -28,7 +28,7 @@ class PersonController
 
             http_response_code(200);
             return json_encode($response);
-        } catch (\PDOException) {
+        } catch (PDOException) {
             http_response_code(500);
             return json_encode(["error" => "Error occurred."]);
         } catch (\Exception) {
@@ -40,10 +40,8 @@ class PersonController
     public function store($request)
     {
         $name = $request->name;
-        if (empty($name)) {
-            http_response_code(422);
-            return json_encode(["error" => "Name field is required"]);
-        }
+        self::validateName($name);
+
         try {
             $saved = Person::create([
                 "name" => $name,
@@ -62,10 +60,8 @@ class PersonController
     public function update($request, $id)
     {
         $name = $request->name;
-        if (empty($name)) {
-            http_response_code(422);
-            return json_encode(["error" => "Name field is required"]);
-        }
+        self::validateName($name);
+
         try {
             $updated = Person::update([
                 "name" => $name,
@@ -110,5 +106,17 @@ class PersonController
     {
         http_response_code(404);
         return json_encode(["error" => "Person not found"]);
+    }
+
+    public static function validateName($name) {
+        if (empty($name)) {
+            http_response_code(422);
+            return json_encode(["error" => "Name field is required"]);
+        }
+
+        if(!preg_match('/^[A-Za-z -]+$/', $name)) {
+            http_response_code(422);
+            return json_encode(["error" => "Please provide a valid name"]);
+        }
     }
 }

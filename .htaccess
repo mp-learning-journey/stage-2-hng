@@ -1,7 +1,8 @@
-RewriteEngine on
+Options +FollowSymLinks
+RewriteEngine On
+RewriteBase /stage-2
 
+# Redirect all requests to index.php
+RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-
-RewriteCond %{REQUEST_FILENAME}\.php -f
-
-RewriteRule ^(.*)$ $1.php
+RewriteRule ^(.*)$ index.php [QSA,L]
