@@ -228,6 +228,10 @@ composer install
 
 - Create a database
 - Create a .env file using the .env.example file and update the Database info.
+- change line 3 of the .htaccess to suite your project folder directory
+```apacheconf
+RewriteBase /stage-2-hng
+```
 - Run the above SQL query in your database
 ```MYSQL
 CREATE TABLE `person` (
